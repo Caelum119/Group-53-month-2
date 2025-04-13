@@ -1,10 +1,8 @@
 import random
 from decouple import Config, RepositoryIni
 
-# Загружаем настройки из settings.ini
 config = Config(repository=RepositoryIni('settings.ini'))
 
-# Если настройки не найдены, используем значения по умолчанию
 MIN_NUMBER = config.get('min_number', default=1, cast=int)
 MAX_NUMBER = config.get('max_number', default=10, cast=int)
 ATTEMPTS = config.get('attempts', default=5, cast=int)
@@ -21,19 +19,16 @@ def play_game():
         guess = int(input("Введи число: "))
         bet = int(input("Ставка: "))
 
-        # Проверяем, достаточно ли денег для ставки
         if bet > capital:
             print("У тебя нет столько денег! Попробуй уменьшить ставку.")
-            continue  # Переходим к следующей попытке
+            continue
 
-        # Проверяем, угадал ли игрок
         if guess == secret_number:
-            capital += bet  # Удваиваем ставку, если угадал
+            capital += bet
             print(f"🎉 Ты угадал! Теперь у тебя {capital} монет.")
             break
         else:
-            capital -= bet  # Если не угадал, вычитаем ставку
+            capital -= bet
             print(f"❌ Неправильно. Осталось {capital} монет.")
 
-    # После окончания игры показываем результат
     print(f"\nИгра окончена. Загаданное число было: {secret_number}")
